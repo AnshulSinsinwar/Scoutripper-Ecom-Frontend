@@ -1,0 +1,85 @@
+import { createContext, useContext, useState, useEffect } from 'react';
+
+const CartContext = createContext();
+
+export const useCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error('useCart must be used within CartProvider');
+    }
+    return context;
+};
+
+export const CartProvider = ({ children }) => {
+    const [cartItems, setCartItems] = useState(() => {
+        // Load cart from localStorage on init
+        const savedCart = localStorage.getItem('scoutripper_cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+    // Save cart to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('scoutripper_cart', JSON.stringify(cartItems));
+    }, [cartItems]);
+
+    const addToCart = (product, type = 'buy', days = 0) => {
+        const newItem = {
+            id: `${product.id}-${type}-${Date.now()}`,
+            productId: product.id,
+            name: product.name,
+            image: product.images[0],
+            price: type === 'rent' ? product.rentPrice : product.buyPrice,
+            type,
+            days: type === 'rent' ? days : 0,
+            quantity: 1,
+            size: product.sizes?.[0] || '',
+            color: product.colors?.[0] || '',
+        };
+
+        setCartItems([...cartItems, newItem]);
+    };
+
+    const removeFromCart = (itemId) => {
+        setCartItems(cartItems.filter((item) => item.id !== itemId));
+    };
+
+    const updateQuantity = (itemId, quantity) => {
+        if (quantity < 1) return;
+        setCartItems(
+            cartItems.map((item) =>
+                item.id === itemId ? { ...item, quantity } : item
+            )
+        );
+    };
+
+    const clearCart = () => {
+        setCartItems([]);
+    };
+
+    const getCartCount = () => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+    };
+
+    const getCartTotal = () => {
+        return cartItems.reduce((total, item) => {
+            const itemPrice = item.type === 'rent' ? item.price * item.days : item.price;
+            return total + itemPrice * item.quantity;
+        }, 0);
+    };
+
+    return (
+        <CartContext.Provider
+            value={{
+                cartItems,
+                addToCart,
+                removeFromCart,
+                updateQuantity,
+                clearCart,
+                getCartCount,
+                getCartTotal,
+            }}
+        >
+            {children}
+        </CartContext.Provider>
+    );
+};
