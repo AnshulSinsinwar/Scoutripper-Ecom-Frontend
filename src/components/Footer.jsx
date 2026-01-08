@@ -38,7 +38,7 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-slate-900 text-white">
+        <footer className="bg-[#4EC5C1] text-white">
             <div className="container py-12 md:py-16">
                 {/* Main Footer Content */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12">
@@ -51,7 +51,7 @@ const Footer = () => {
                                 className="h-10 brightness-0 invert"
                             />
                         </Link>
-                        <p className="text-slate-400 mb-6 max-w-sm">
+                        <p className="text-white mb-6 max-w-sm">
                             Your trusted partner for premium trekking gear. Rent or buy equipment that's tested on real trails.
                         </p>
                         <div className="flex gap-4">
@@ -81,7 +81,7 @@ const Footer = () => {
                                 <li key={link.path}>
                                     <Link
                                         to={link.path}
-                                        className="text-slate-400 hover:text-primary-300 transition-colors"
+                                        className="text-white hover:text-primary-300 transition-colors"
                                     >
                                         {link.name}
                                     </Link>
@@ -97,7 +97,7 @@ const Footer = () => {
                                 <li key={link.path}>
                                     <Link
                                         to={link.path}
-                                        className="text-slate-400 hover:text-primary-300 transition-colors"
+                                        className="text-white hover:text-primary-300 transition-colors"
                                     >
                                         {link.name}
                                     </Link>
@@ -113,7 +113,7 @@ const Footer = () => {
                                 <li key={link.path}>
                                     <Link
                                         to={link.path}
-                                        className="text-slate-400 hover:text-primary-300 transition-colors"
+                                        className="text-white hover:text-primary-300 transition-colors"
                                     >
                                         {link.name}
                                     </Link>
@@ -125,7 +125,7 @@ const Footer = () => {
                     {/* Newsletter Column */}
                     <div className="lg:col-span-2">
                         <h3 className="font-semibold text-lg mb-4">Newsletter</h3>
-                        <p className="text-slate-400 text-sm mb-4">
+                        <p className="text-white text-sm mb-4">
                             Get trek tips and gear updates
                         </p>
                         <div className="flex gap-2">
@@ -143,7 +143,7 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-slate-400 text-sm">
+                    <p className="text-white text-sm">
                         © {currentYear} Scoutripper. All rights reserved.
                     </p>
                     <div className="flex gap-6">
@@ -151,7 +151,7 @@ const Footer = () => {
                             <Link
                                 key={link.path}
                                 to={link.path}
-                                className="text-slate-400 hover:text-primary-300 text-sm transition-colors"
+                                className="text-white hover:text-primary-300 text-sm transition-colors"
                             >
                                 {link.name}
                             </Link>

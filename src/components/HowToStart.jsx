@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ShoppingBag, Package, Map } from 'lucide-react';
+import { ShoppingBag, Package, Map, Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import Button from './Button';
@@ -26,6 +26,13 @@ const HowToStart = () => {
             description: 'Complete gear sets curated for specific treks',
             link: '/trek-kits',
             color: 'bg-purple-50 text-purple-600',
+        },
+        {
+            icon: Leaf,
+            title: 'Eco-Friendly Gear',
+            description: 'Sustainable choices for conscious adventurers',
+            link: '/eco-friendly',
+            color: 'bg-green-50 text-green-600',
         },
     ];
 
@@ -70,18 +77,18 @@ const HowToStart = () => {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto"
                 >
                     {options.map((option, index) => {
                         const Icon = option.icon;
                         return (
                             <motion.div key={index} variants={itemVariants}>
-                                <Card className="h-full text-center group cursor-pointer">
+                                <Card className="h-full text-center group cursor-pointer flex flex-col">
                                     <div className={`w-16 h-16 ${option.color} rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
                                         <Icon className="w-8 h-8" />
                                     </div>
                                     <h3 className="text-2xl font-semibold mb-3">{option.title}</h3>
-                                    <p className="text-slate-600 mb-6">{option.description}</p>
+                                    <p className="text-slate-600 mb-6 flex-grow">{option.description}</p>
                                     <Link to={option.link}>
                                         <Button variant="secondary" className="w-full">
                                             Get Started

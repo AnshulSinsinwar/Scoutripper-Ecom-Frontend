@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, User, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
@@ -11,6 +11,12 @@ const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const { getCartCount } = useCart();
     const cartCount = getCartCount();
+    const location = useLocation();
+
+    // Check if we're on pages that should have transparent navbar (home, rent, buy)
+    const isTransparentNavPage = location.pathname === '/' ||
+        location.pathname === '/rent' ||
+        location.pathname === '/buy';
 
     useEffect(() => {
         const handleScroll = () => {
@@ -26,17 +32,26 @@ const Navbar = () => {
         { name: 'Buy Gear', path: '/buy' },
     ];
 
+    // Dynamic navbar classes based on page and scroll state
+    const navbarClasses = isTransparentNavPage
+        ? `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+            ? 'bg-[#324B4C] shadow-lg'
+            : 'bg-gradient-to-b from-black/50 to-transparent'
+        }`
+        : 'fixed top-0 left-0 right-0 z-50 bg-[#324B4C] shadow-md';
+
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-[#2d4a4b] shadow-md">
+            <nav className={navbarClasses}>
                 <div className="container">
                     <div className="flex items-center justify-between h-20">
                         {/* Logo */}
                         <Link to="/" className="flex items-center">
                             <img
-                                src="/assets/logo.png"
+                                src={location.pathname === '/' ? "/assets/logo.png" : "/assets/logo-teal.png"}
                                 alt="Scoutripper"
-                                className="h-10 md:h-12 object-contain"
+                                className="object-contain"
+                                style={{ width: '140px', height: '40px' }}
                             />
                         </Link>
 
@@ -46,7 +61,7 @@ const Navbar = () => {
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className="font-medium text-white hover:text-primary-400 transition-colors"
+                                    className="font-medium text-white hover:text-teal-300 transition-colors"
                                 >
                                     {link.name}
                                 </Link>
@@ -67,7 +82,7 @@ const Navbar = () => {
                             >
                                 <ShoppingCart className="w-5 h-5" />
                                 {cartCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-primary-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                                         {cartCount}
                                     </span>
                                 )}
@@ -91,14 +106,17 @@ const Navbar = () => {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="md:hidden bg-white border-t"
+                            className={`md:hidden border-t ${isTransparentNavPage && !isScrolled
+                                ? 'bg-black/80 backdrop-blur-sm'
+                                : 'bg-[#324B4C]'
+                                }`}
                         >
                             <div className="container py-4 space-y-2">
                                 {navLinks.map((link) => (
                                     <Link
                                         key={link.path}
                                         to={link.path}
-                                        className="block py-3 px-4 text-slate-700 hover:bg-slate-50 rounded-lg transition-colors"
+                                        className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         {link.name}

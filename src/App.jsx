@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import ProductListing from './pages/ProductListing';
 import ProductDetail from './pages/ProductDetail';
 import SizeGuide from './pages/SizeGuide';
+import ComingSoon from './pages/ComingSoon';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import CheckoutFlow from './pages/CheckoutFlow';
@@ -34,7 +35,8 @@ function App() {
                         <Route path="/products" element={<ProductListing />} />
                         <Route path="/rent" element={<ProductListing />} />
                         <Route path="/buy" element={<ProductListing />} />
-                        <Route path="/trek-kits" element={<ProductListing />} />
+                        <Route path="/trek-kits" element={<ComingSoon />} />
+                        <Route path="/eco-friendly" element={<ComingSoon />} />
                         <Route path="/product/:id" element={<ProductDetail />} />
                         <Route path="/size-guide" element={<SizeGuide />} />
                         <Route path="/cart" element={<Cart />} />
