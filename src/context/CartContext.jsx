@@ -22,21 +22,22 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem('scoutripper_cart', JSON.stringify(cartItems));
     }, [cartItems]);
 
-    const addToCart = (product, type = 'buy', days = 0) => {
+    const addToCart = (productData) => {
         const newItem = {
-            id: `${product.id}-${type}-${Date.now()}`,
-            productId: product.id,
-            name: product.name,
-            image: product.images[0],
-            price: type === 'rent' ? product.rentPrice : product.buyPrice,
-            type,
-            days: type === 'rent' ? days : 0,
-            quantity: 1,
-            size: product.sizes?.[0] || '',
-            color: product.colors?.[0] || '',
+            id: `${productData.id}-${productData.type}-${Date.now()}`,
+            productId: productData.id,
+            name: productData.name,
+            image: productData.images?.[0] || productData.image,
+            price: productData.type === 'rent' ? productData.rentPrice : productData.buyPrice,
+            type: productData.type || 'buy',
+            days: productData.type === 'rent' ? (productData.days || 1) : 0,
+            quantity: productData.quantity || 1,
+            size: productData.size || '',
+            startDate: productData.startDate || '',
+            endDate: productData.endDate || '',
         };
 
-        setCartItems([...cartItems, newItem]);
+        setCartItems((prev) => [...prev, newItem]);
     };
 
     const removeFromCart = (itemId) => {

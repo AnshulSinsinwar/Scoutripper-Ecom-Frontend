@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Trash2, Calendar, Minus, Plus } from 'lucide-react';
+import { X, Trash2, ShoppingCart, Minus, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -8,20 +8,46 @@ import Button from './Button';
 const CartSidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
+    const [activeTab, setActiveTab] = useState('all'); // 'all', 'rent', 'buy'
 
-    const subtotal = getCartTotal();
-    const deposit = cartItems.reduce((total, item) => {
+    // Filter items based on active tab
+    const filteredItems = cartItems.filter((item) => {
+        if (activeTab === 'all') return true;
+        return item.type === activeTab;
+    });
+
+    // Get counts for each tab
+    const rentCount = cartItems.filter(item => item.type === 'rent').length;
+    const buyCount = cartItems.filter(item => item.type === 'buy').length;
+
+    // Calculate totals based on FILTERED items (active tab)
+    const subtotal = filteredItems.reduce((total, item) => {
         if (item.type === 'rent') {
-            return total + Math.floor((item.price * item.days) * 0.3);
+            return total + (item.price * (item.days || 1) * item.quantity);
+        }
+        return total + (item.price * item.quantity);
+    }, 0);
+
+    const deposit = filteredItems.reduce((total, item) => {
+        if (item.type === 'rent') {
+            return total + Math.floor((item.price * (item.days || 1)) * 0.3);
         }
         return total;
     }, 0);
+
     const totalAmount = subtotal + deposit;
 
     const handleProceedToCheckout = () => {
         onClose();
-        navigate('/checkout-flow');
+        // Pass the active tab filter to checkout so only those items are processed
+        navigate(`/checkout-flow?filter=${activeTab}`);
     };
+
+    const tabs = [
+        { id: 'all', label: 'All', count: cartItems.length },
+        { id: 'rent', label: 'Rent', count: rentCount },
+        { id: 'buy', label: 'Buy', count: buyCount },
+    ];
 
     return (
         <AnimatePresence>
@@ -47,7 +73,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                         {/* Header */}
                         <div className="flex items-center justify-between p-6 border-b">
                             <h2 className="text-2xl font-bold flex items-center gap-2">
-                                <Calendar className="w-6 h-6" />
+                                <ShoppingCart className="w-6 h-6" />
                                 Your Cart
                             </h2>
                             <button
@@ -58,15 +84,49 @@ const CartSidebar = ({ isOpen, onClose }) => {
                             </button>
                         </div>
 
+                        {/* Tabs */}
+                        <div className="px-6 py-3 border-b bg-slate-50">
+                            <div className="flex gap-2">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${activeTab === tab.id
+                                            ? 'bg-teal-600 text-white shadow-sm'
+                                            : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                                            }`}
+                                    >
+                                        {tab.label}
+                                        {tab.count > 0 && (
+                                            <span className={`ml-2 px-1.5 py-0.5 rounded-full text-xs ${activeTab === tab.id
+                                                ? 'bg-white/20 text-white'
+                                                : 'bg-slate-100 text-slate-600'
+                                                }`}>
+                                                {tab.count}
+                                            </span>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
                         {/* Cart Items - Scrollable */}
                         <div className="flex-1 overflow-y-auto p-6">
-                            {cartItems.length === 0 ? (
+                            {filteredItems.length === 0 ? (
                                 <div className="text-center py-12">
-                                    <p className="text-slate-500">Your cart is empty</p>
+                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <ShoppingCart className="w-8 h-8 text-slate-400" />
+                                    </div>
+                                    <p className="text-slate-500">
+                                        {activeTab === 'all'
+                                            ? 'Your cart is empty'
+                                            : `No ${activeTab === 'rent' ? 'rental' : 'purchase'} items`
+                                        }
+                                    </p>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
-                                    {cartItems.map((item) => (
+                                    {filteredItems.map((item) => (
                                         <div key={item.id} className="bg-white border border-slate-200 rounded-xl p-4">
                                             <div className="flex gap-3">
                                                 <img

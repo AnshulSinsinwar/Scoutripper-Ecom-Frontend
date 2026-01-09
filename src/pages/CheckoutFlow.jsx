@@ -1,16 +1,40 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Check, Calendar, MapPin, CreditCard, CheckCircle, ShieldCheck, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import Button from '../components/Button';
 
 const CheckoutFlow = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { cartItems, getCartTotal } = useCart();
     const [currentStep, setCurrentStep] = useState(1); // 1: Order Summary, 2: Delivery, 3: Payment, 4: Confirmation
 
+    // Get the filter from URL (all, rent, or buy)
+    const checkoutFilter = searchParams.get('filter') || 'all';
+
+    // Filter cart items based on checkout filter
+    const checkoutItems = cartItems.filter((item) => {
+        if (checkoutFilter === 'all') return true;
+        return item.type === checkoutFilter;
+    });
+
+    // Scroll to top whenever step changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    }, [currentStep]);
+
     // Form states
     const [deliveryMethod, setDeliveryMethod] = useState('home');
+
+    // For rent-only checkout, force pickup as the only delivery option
+    useEffect(() => {
+        if (checkoutFilter === 'rent') {
+            setDeliveryMethod('pickup');
+        }
+    }, [checkoutFilter]);
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -27,13 +51,14 @@ const CheckoutFlow = () => {
         name: '',
     });
 
-    const subtotal = getCartTotal();
-    const rentalSubtotal = cartItems
+    // Calculate totals based on filtered items only
+    const rentalSubtotal = checkoutItems
         .filter((item) => item.type === 'rent')
         .reduce((total, item) => total + item.price * item.days * item.quantity, 0);
-    const purchaseSubtotal = cartItems
+    const purchaseSubtotal = checkoutItems
         .filter((item) => item.type === 'buy')
         .reduce((total, item) => total + item.price * item.quantity, 0);
+    const subtotal = rentalSubtotal + purchaseSubtotal;
     const deposit = Math.floor(rentalSubtotal * 0.3) + Math.floor(purchaseSubtotal * 0.3);
     const deliveryCharge = deliveryMethod === 'home' ? 99 : 0;
     const totalToPay = subtotal + deposit + deliveryCharge;
@@ -80,10 +105,10 @@ const CheckoutFlow = () => {
                                     <div className="flex flex-col items-center">
                                         <div
                                             className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isActive
-                                                    ? 'bg-teal-600 text-white ring-4 ring-teal-100'
-                                                    : isCompleted
-                                                        ? 'bg-teal-600 text-white'
-                                                        : '  bg-slate-200 text-slate-500'
+                                                ? 'bg-teal-600 text-white ring-4 ring-teal-100'
+                                                : isCompleted
+                                                    ? 'bg-teal-600 text-white'
+                                                    : '  bg-slate-200 text-slate-500'
                                                 }`}
                                         >
                                             <Icon className="w-6 h-6" />
@@ -130,13 +155,13 @@ const CheckoutFlow = () => {
                         </div>
 
                         {/* Rental Items */}
-                        {cartItems.filter((item) => item.type === 'rent').length > 0 && (
+                        {checkoutItems.filter((item) => item.type === 'rent').length > 0 && (
                             <div className="bg-white rounded-2xl p-6 border">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="font-semibold text-lg">Rental Items</h2>
                                 </div>
                                 <div className="space-y-4">
-                                    {cartItems
+                                    {checkoutItems
                                         .filter((item) => item.type === 'rent')
                                         .map((item) => (
                                             <div key={item.id} className="flex gap-4">
@@ -172,13 +197,13 @@ const CheckoutFlow = () => {
                         )}
 
                         {/* Purchase Items */}
-                        {cartItems.filter((item) => item.type === 'buy').length > 0 && (
+                        {checkoutItems.filter((item) => item.type === 'buy').length > 0 && (
                             <div className="bg-white rounded-2xl p-6 border">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="font-semibold text-lg">Purchase Items</h2>
                                 </div>
                                 <div className="space-y-4">
-                                    {cartItems
+                                    {checkoutItems
                                         .filter((item) => item.type === 'buy')
                                         .map((item) => (
                                             <div key={item.id} className="flex gap-4">
@@ -274,20 +299,23 @@ const CheckoutFlow = () => {
                         <div className="bg-white rounded-2xl p-6 border">
                             <h3 className="font-semibold mb-4">Delivery Method</h3>
                             <div className="space-y-3">
-                                <label className="flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
-                                    <input
-                                        type="radio"
-                                        name="delivery"
-                                        checked={deliveryMethod === 'home'}
-                                        onChange={() => setDeliveryMethod('home')}
-                                        className="w-5 h-5 text-teal-600"
-                                    />
-                                    <div className="flex-1">
-                                        <div className="font-semibold">Home Delivery</div>
-                                        <div className="text-sm text-slate-600">Delivered 1 day before your trek starts</div>
-                                    </div>
-                                    <div className="font-semibold">₹99</div>
-                                </label>
+                                {/* Home Delivery - Only for purchase items, not for rent-only checkout */}
+                                {checkoutFilter !== 'rent' && (
+                                    <label className="flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
+                                        <input
+                                            type="radio"
+                                            name="delivery"
+                                            checked={deliveryMethod === 'home'}
+                                            onChange={() => setDeliveryMethod('home')}
+                                            className="w-5 h-5 text-teal-600"
+                                        />
+                                        <div className="flex-1">
+                                            <div className="font-semibold">Home Delivery</div>
+                                            <div className="text-sm text-slate-600">Delivered 1 day before your trek starts</div>
+                                        </div>
+                                        <div className="font-semibold">₹99</div>
+                                    </label>
+                                )}
 
                                 <label className="flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
                                     <input
@@ -303,6 +331,13 @@ const CheckoutFlow = () => {
                                     </div>
                                     <div className="font-semibold text-teal-600">Free</div>
                                 </label>
+
+                                {/* Note for rental items */}
+                                {checkoutFilter === 'rent' && (
+                                    <div className="bg-teal-50 border border-teal-200 rounded-lg p-3 text-sm text-teal-700">
+                                        <strong>Note:</strong> Rental items are only available for store pickup. Please collect your gear from our Dehradun store.
+                                    </div>
+                                )}
                             </div>
                         </div>
 

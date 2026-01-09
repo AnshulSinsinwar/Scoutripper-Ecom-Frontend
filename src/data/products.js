@@ -6,6 +6,7 @@ export const products = [
     category: 'Footwear',
     rentPrice: 150,
     buyPrice: 3999,
+    originalPrice: 5499,
     rating: 4.5,
     reviewCount: 128,
     images: [
@@ -25,6 +26,7 @@ export const products = [
     category: 'Jackets',
     rentPrice: 250,
     buyPrice: 6999,
+    originalPrice: 9999,
     rating: 4.7,
     reviewCount: 95,
     images: [
@@ -45,6 +47,7 @@ export const products = [
     category: 'Backpacks',
     rentPrice: 200,
     buyPrice: 4999,
+    originalPrice: 6499,
     rating: 4.6,
     reviewCount: 210,
     images: [
@@ -65,6 +68,7 @@ export const products = [
     category: 'Accessories',
     rentPrice: 80,
     buyPrice: 1499,
+    originalPrice: 1999,
     rating: 4.4,
     reviewCount: 156,
     images: [
@@ -82,6 +86,7 @@ export const products = [
     category: 'Sleeping Gear',
     rentPrice: 180,
     buyPrice: 5499,
+    originalPrice: 7999,
     rating: 4.8,
     reviewCount: 88,
     images: [
@@ -117,6 +122,7 @@ export const products = [
     category: 'Jackets',
     rentPrice: 100,
     buyPrice: 1299,
+    originalPrice: 1799,
     rating: 4.3,
     reviewCount: 142,
     images: [
@@ -153,6 +159,7 @@ export const products = [
     category: 'Footwear',
     rentPrice: 120,
     buyPrice: 2499,
+    originalPrice: 3499,
     rating: 4.9,
     reviewCount: 67,
     images: [
@@ -188,6 +195,7 @@ export const products = [
     category: 'Jackets',
     rentPrice: 180,
     buyPrice: 4999,
+    originalPrice: 6999,
     rating: 4.6,
     reviewCount: 89,
     images: [
@@ -207,6 +215,7 @@ export const products = [
     category: 'Accessories',
     rentPrice: 100,
     buyPrice: 2299,
+    originalPrice: 2999,
     rating: 4.5,
     reviewCount: 134,
     images: [

@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User, ShoppingCart } from 'lucide-react';
+import { Menu, X, User, ShoppingCart, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import { useFavorites } from '../context/FavoritesContext';
 import CartSidebar from './CartSidebar';
+import FavoritesSidebar from './FavoritesSidebar';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
     const { getCartCount } = useCart();
+    const { getFavoritesCount } = useFavorites();
     const cartCount = getCartCount();
+    const favoritesCount = getFavoritesCount();
     const location = useLocation();
 
     // Check if we're on pages that should have transparent navbar (home, rent, buy)
@@ -69,7 +74,20 @@ const Navbar = () => {
                         </div>
 
                         {/* Right Side Icons */}
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 sm:gap-4">
+                            {/* Favorites Icon */}
+                            <button
+                                onClick={() => setIsFavoritesOpen(true)}
+                                className="p-2 rounded-full relative text-white hover:bg-white/20 transition-colors"
+                            >
+                                <Heart className="w-5 h-5" />
+                                {favoritesCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                        {favoritesCount}
+                                    </span>
+                                )}
+                            </button>
+
                             <Link
                                 to="/profile"
                                 className="p-2 rounded-full text-white hover:bg-white/20 transition-colors"
@@ -122,6 +140,21 @@ const Navbar = () => {
                                         {link.name}
                                     </Link>
                                 ))}
+                                <button
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        setIsFavoritesOpen(true);
+                                    }}
+                                    className="flex items-center gap-2 py-3 px-4 w-full text-left text-white hover:bg-white/20 rounded-lg transition-colors"
+                                >
+                                    <Heart className="w-5 h-5" />
+                                    Favorites
+                                    {favoritesCount > 0 && (
+                                        <span className="bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                            {favoritesCount}
+                                        </span>
+                                    )}
+                                </button>
                             </div>
                         </motion.div>
                     )}
@@ -130,6 +163,9 @@ const Navbar = () => {
 
             {/* Cart Sidebar */}
             <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+            {/* Favorites Sidebar */}
+            <FavoritesSidebar isOpen={isFavoritesOpen} onClose={() => setIsFavoritesOpen(false)} />
         </>
     );
 };

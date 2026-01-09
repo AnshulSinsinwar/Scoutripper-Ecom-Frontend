@@ -1,21 +1,37 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Star, ShoppingCart } from 'lucide-react';
+import { Star, ShoppingCart, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import AddToCartModal from './AddToCartModal';
 import { useCart } from '../context/CartContext';
+import { useFavorites } from '../context/FavoritesContext';
 
 const ProductCard = ({ product }) => {
     const { addToCart } = useCart();
+    const { toggleFavorite, isFavorite } = useFavorites();
     const [showToast, setShowToast] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const isProductFavorite = isFavorite(product.id);
+
+    // Calculate discount percentage if originalPrice exists
+    const hasOffer = product.originalPrice && product.originalPrice > product.buyPrice;
+    const discountPercent = hasOffer
+        ? Math.round(((product.originalPrice - product.buyPrice) / product.originalPrice) * 100)
+        : 0;
 
     const handleAddToCart = (productData) => {
-        addToCart(productData, productData.type, productData.days || 0);
+        addToCart(productData);
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2000);
     };
+
+    const handleFavoriteClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(product);
+    };
+
     const renderStars = (rating) => {
         return [...Array(5)].map((_, i) => (
             <Star
@@ -45,9 +61,27 @@ const ProductCard = ({ product }) => {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                         />
-                        {product.rentPrice && (
-                            <div className="absolute top-3 left-3 bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                Rent Available
+
+                        {/* Top right - Favorite Button */}
+                        <div className="absolute top-3 right-3">
+                            <button
+                                onClick={handleFavoriteClick}
+                                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-md ${isProductFavorite
+                                    ? 'bg-red-500 text-white'
+                                    : 'bg-white/90 text-slate-600 hover:bg-white hover:text-red-500'
+                                    }`}
+                            >
+                                <Heart className={`w-5 h-5 ${isProductFavorite ? 'fill-current' : ''}`} />
+                            </button>
+                        </div>
+
+                        {/* Discount Badge */}
+                        {hasOffer && (
+                            <div
+                                className="absolute top-3 left-3 text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-md"
+                                style={{ backgroundColor: '#4EC5C1' }}
+                            >
+                                SALE OFF {discountPercent}%
                             </div>
                         )}
                     </div>
@@ -73,39 +107,36 @@ const ProductCard = ({ product }) => {
                                     Rent: <span className="font-semibold text-primary-600">₹{product.rentPrice}/day</span>
                                 </div>
                             )}
-                            <div className="text-lg font-semibold text-slate-900">
-                                Buy: ₹{product.buyPrice}
+                            <div className="flex items-center gap-2">
+                                <span className="text-lg font-bold text-slate-900">
+                                    ₹{product.buyPrice.toLocaleString()}
+                                </span>
+                                {hasOffer && (
+                                    <>
+                                        <span className="text-sm text-slate-400 line-through">
+                                            ₹{product.originalPrice.toLocaleString()}
+                                        </span>
+                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                                            Save ₹{(product.originalPrice - product.buyPrice).toLocaleString()}
+                                        </span>
+                                    </>
+                                )}
                             </div>
                         </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex gap-2">
-                            {product.rentPrice && (
-                                <Button
-                                    variant="secondary"
-                                    size="sm"
-                                    className="flex-1"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setIsModalOpen(true);
-                                    }}
-                                >
-                                    Rent
-                                </Button>
-                            )}
-                            <Button
-                                variant="primary"
-                                size="sm"
-                                className="flex-1"
-                                icon={ShoppingCart}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setIsModalOpen(true);
-                                }}
-                            >
-                                Buy
-                            </Button>
-                        </div>
+                        {/* Add to Cart Button */}
+                        <Button
+                            variant="primary"
+                            size="sm"
+                            className="w-full"
+                            icon={ShoppingCart}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsModalOpen(true);
+                            }}
+                        >
+                            Add
+                        </Button>
                     </div>
                 </div>
             </Link>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -11,13 +12,18 @@ import ComingSoon from './pages/ComingSoon';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import CheckoutFlow from './pages/CheckoutFlow';
+import Favorites from './pages/Favorites';
 
 // Scroll to top on route change
 function ScrollToTop() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // Scroll to top immediately with no animation
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        // Fallback for older browsers
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
     }, [pathname]);
 
     return null;
@@ -26,26 +32,29 @@ function ScrollToTop() {
 function App() {
     return (
         <CartProvider>
-            <Router>
-                <ScrollToTop />
-                <Navbar />
-                <main className="flex-grow">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/products" element={<ProductListing />} />
-                        <Route path="/rent" element={<ProductListing />} />
-                        <Route path="/buy" element={<ProductListing />} />
-                        <Route path="/trek-kits" element={<ComingSoon />} />
-                        <Route path="/eco-friendly" element={<ComingSoon />} />
-                        <Route path="/product/:id" element={<ProductDetail />} />
-                        <Route path="/size-guide" element={<SizeGuide />} />
-                        <Route path="/cart" element={<Cart />} />
-                        <Route path="/checkout" element={<Checkout />} />
-                        <Route path="/checkout-flow" element={<CheckoutFlow />} />
-                    </Routes>
-                </main>
-                <Footer />
-            </Router >
+            <FavoritesProvider>
+                <Router>
+                    <ScrollToTop />
+                    <Navbar />
+                    <main className="flex-grow">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/products" element={<ProductListing />} />
+                            <Route path="/rent" element={<ProductListing />} />
+                            <Route path="/buy" element={<ProductListing />} />
+                            <Route path="/trek-kits" element={<ComingSoon />} />
+                            <Route path="/eco-friendly" element={<ComingSoon />} />
+                            <Route path="/product/:id" element={<ProductDetail />} />
+                            <Route path="/size-guide" element={<SizeGuide />} />
+                            <Route path="/cart" element={<Cart />} />
+                            <Route path="/checkout" element={<Checkout />} />
+                            <Route path="/checkout-flow" element={<CheckoutFlow />} />
+                            <Route path="/favorites" element={<Favorites />} />
+                        </Routes>
+                    </main>
+                    <Footer />
+                </Router>
+            </FavoritesProvider>
         </CartProvider>
     );
 }
