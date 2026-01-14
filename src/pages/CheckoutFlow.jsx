@@ -306,7 +306,7 @@ const CheckoutFlow = () => {
                             </p>
                         </div>
 
-                        <Button onClick={handleContinue} className="w-full bg-teal-600 hover:bg-teal-700 py-4 rounded-xl">
+                        <Button onClick={handleContinue} className="w-full bg-#4EC5C1 hover:bg-teal-700 py-4 rounded-xl">
                             Continue →
                         </Button>
                     </div>
@@ -449,7 +449,7 @@ const CheckoutFlow = () => {
                             </div>
                         </div>
 
-                        <Button onClick={handleContinue} className="w-full bg-teal-600 hover:bg-teal-700 py-4 rounded-xl">
+                        <Button onClick={handleContinue} className="w-full bg-#4EC5C1 hover:bg-teal-700 py-4 rounded-xl">
                             Continue →
                         </Button>
                     </div>
@@ -593,7 +593,7 @@ const CheckoutFlow = () => {
                             </div>
                         </div>
 
-                        <Button onClick={handleContinue} className="w-full bg-teal-600 hover:bg-teal-700 py-4 rounded-xl">
+                        <Button onClick={handleContinue} className="w-full bg-#4EC5C1 hover:bg-teal-700 py-4 rounded-xl">
                             Pay & Confirm →
                         </Button>
                     </div>
@@ -625,7 +625,7 @@ const CheckoutFlow = () => {
                             <Button onClick={() => navigate('/')} variant="outline" className="rounded-xl">
                                 Back to Home
                             </Button>
-                            <Button onClick={() => navigate('/products')} className="bg-teal-600 hover:bg-teal-700 rounded-xl">
+                            <Button onClick={() => navigate('/products')} className="bg-#4EC5C1 hover:bg-teal-700 rounded-xl">
                                 Continue Shopping
                             </Button>
                         </div>
