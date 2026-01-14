@@ -3,29 +3,29 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
     const currentYear = new Date().getFullYear();
 
-    const communityLinks = [
+    const shopLinks = [
+        { name: 'Rent Gear', path: '/rent' },
+        { name: 'Buy Gear', path: '/buy' },
+        { name: 'Trek Kits', path: '/trek-kits' },
+        { name: 'Accessories', path: '/products' },
+        { name: 'New Arrivals', path: '/products' },
+    ];
+
+    const customerServiceLinks = [
+        { name: 'Contact Us', path: '/contact' },
+        { name: 'FAQs', path: '/faqs' },
+        { name: 'Shipping & Delivery', path: '/shipping' },
+        { name: 'Returns & Exchanges', path: '/returns' },
+        { name: 'Size Guide', path: '/size-guide' },
+        { name: 'Track Order', path: '/track-order' },
+    ];
+
+    const companyLinks = [
         { name: 'About Us', path: '/about' },
-        { name: 'Cleanup Drive', path: '/cleanup-drive' },
+        { name: 'Careers', path: '/careers' },
         { name: 'Blog', path: '/blog' },
-        { name: 'Memories', path: '/memories' },
-        { name: 'Trekking Essentials', path: '/trekking-essentials' },
-        { name: 'Contact', path: '/contact' },
-    ];
-
-    const supportLinks = [
-        { name: 'Chat on Whatsapp', path: 'https://wa.me/+919888454430', external: true },
-        { name: 'Terms & Conditions', path: '/terms' },
         { name: 'Privacy Policy', path: '/privacy' },
-        { name: 'Cancellation & Refund Policy', path: '/refund' },
-    ];
-
-    const otherServicesLinks = [
-        { name: 'Plan with TripGenie', path: '/tripgenie' },
-        { name: 'Ask TrekGenie', path: '/trekgenie' },
-        { name: 'Compare Treks', path: '/compare-treks' },
-        { name: 'Write a Review', path: '/reviews' },
-        { name: 'Calculate BMI', path: '/bmi-calculator' },
-        { name: 'Eco Genie', path: '/ecogenie' },
+        { name: 'Terms & Conditions', path: '/terms' },
     ];
 
     return (
@@ -105,13 +105,13 @@ const Footer = () => {
                             <h3 className="text-white font-semibold mb-3">
                                 Get Updates & More
                             </h3>
-                            <div className="flex max-w-md">
+                            <div className="flex max-w-lg">
                                 <input
                                     type="email"
                                     placeholder="Your Email"
-                                    className="flex-1 px-4 py-3 text-sm rounded-l-md bg-white/20 border border-white/30 placeholder-white/70 text-white focus:outline-none focus:bg-white/30"
+                                    className="flex-1 px-5 py-3.5 text-sm rounded-l bg-white text-gray-700 placeholder-gray-400 focus:outline-none"
                                 />
-                                <button className="px-6 py-3 bg-white text-[#4ec5c1] text-sm font-semibold rounded-r-md hover:bg-white/90 transition-colors">
+                                <button className="px-8 py-3.5 bg-white text-[#324B4C] text-sm font-semibold rounded-r border-l border-gray-200 hover:bg-gray-50 transition-colors">
                                     Subscribe
                                 </button>
                             </div>
@@ -119,14 +119,14 @@ const Footer = () => {
 
                         {/* Links Columns */}
                         <div className="grid grid-cols-3 gap-8">
-                            {/* Community Column */}
+                            {/* Shop Column */}
                             <div>
                                 <h3 className="text-white font-semibold mb-4">
-                                    Community
+                                    Shop
                                 </h3>
                                 <ul className="space-y-4">
-                                    {communityLinks.map((link) => (
-                                        <li key={link.path}>
+                                    {shopLinks.map((link) => (
+                                        <li key={link.path + link.name}>
                                             <Link
                                                 to={link.path}
                                                 className="text-white/90 hover:text-white text-sm"
@@ -138,43 +138,32 @@ const Footer = () => {
                                 </ul>
                             </div>
 
-                            {/* Support Column */}
+                            {/* Customer Service Column */}
                             <div>
                                 <h3 className="text-white font-semibold mb-4">
-                                    Support
+                                    Customer Service
                                 </h3>
                                 <ul className="space-y-4">
-                                    {supportLinks.map((link) => (
-                                        <li key={link.path}>
-                                            {link.external ? (
-                                                <a
-                                                    href={link.path}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-white/90 hover:text-white text-sm"
-                                                >
-                                                    {link.name}
-                                                </a>
-                                            ) : (
-                                                <Link
-                                                    to={link.path}
-                                                    className="text-white/90 hover:text-white text-sm"
-                                                >
-                                                    {link.name}
-                                                </Link>
-                                            )}
+                                    {customerServiceLinks.map((link) => (
+                                        <li key={link.path + link.name}>
+                                            <Link
+                                                to={link.path}
+                                                className="text-white/90 hover:text-white text-sm"
+                                            >
+                                                {link.name}
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
-                            {/* Other Services Column */}
+                            {/* Company Column */}
                             <div>
                                 <h3 className="text-white font-semibold mb-4">
-                                    Other Services
+                                    Company
                                 </h3>
                                 <ul className="space-y-4">
-                                    {otherServicesLinks.map((link) => (
+                                    {companyLinks.map((link) => (
                                         <li key={link.path}>
                                             <Link
                                                 to={link.path}

@@ -5,13 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
 import CartSidebar from './CartSidebar';
-import FavoritesSidebar from './FavoritesSidebar';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
     const { getCartCount } = useCart();
     const { getFavoritesCount } = useFavorites();
     const cartCount = getCartCount();
@@ -76,8 +74,8 @@ const Navbar = () => {
                         {/* Right Side Icons */}
                         <div className="flex items-center gap-2 sm:gap-4">
                             {/* Favorites Icon */}
-                            <button
-                                onClick={() => setIsFavoritesOpen(true)}
+                            <Link
+                                to="/favorites"
                                 className="p-2 rounded-full relative text-white hover:bg-white/20 transition-colors"
                             >
                                 <Heart className="w-5 h-5" />
@@ -86,7 +84,7 @@ const Navbar = () => {
                                         {favoritesCount}
                                     </span>
                                 )}
-                            </button>
+                            </Link>
 
                             <Link
                                 to="/profile"
@@ -140,11 +138,9 @@ const Navbar = () => {
                                         {link.name}
                                     </Link>
                                 ))}
-                                <button
-                                    onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        setIsFavoritesOpen(true);
-                                    }}
+                                <Link
+                                    to="/favorites"
+                                    onClick={() => setIsMobileMenuOpen(false)}
                                     className="flex items-center gap-2 py-3 px-4 w-full text-left text-white hover:bg-white/20 rounded-lg transition-colors"
                                 >
                                     <Heart className="w-5 h-5" />
@@ -154,7 +150,7 @@ const Navbar = () => {
                                             {favoritesCount}
                                         </span>
                                     )}
-                                </button>
+                                </Link>
                             </div>
                         </motion.div>
                     )}
@@ -164,8 +160,7 @@ const Navbar = () => {
             {/* Cart Sidebar */}
             <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-            {/* Favorites Sidebar */}
-            <FavoritesSidebar isOpen={isFavoritesOpen} onClose={() => setIsFavoritesOpen(false)} />
+
         </>
     );
 };
