@@ -33,15 +33,19 @@ const Navbar = () => {
     const navLinks = [
         { name: 'Rent Gear', path: '/rent' },
         { name: 'Buy Gear', path: '/buy' },
+        { name: 'Trek Kits', path: '/trek-kits' },
+        { name: 'Eco-Friendly Gear', path: '/trek-kits' }
     ];
 
     // Dynamic navbar classes based on page and scroll state
-    const navbarClasses = isTransparentNavPage
+    const isHomePage = location.pathname === '/';
+
+    const navbarClasses = isHomePage
         ? `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
             ? 'bg-[#324B4C] shadow-lg'
-            : 'bg-gradient-to-b from-black/50'
+            : 'bg-transparent'
         }`
-        : 'fixed top-0 left-0 right-0 z-50 bg-[#324B4C] shadow-md';
+        : 'fixed top-0 left-0 right-0 z-50 bg-white shadow-md';
 
     return (
         <>
@@ -49,26 +53,29 @@ const Navbar = () => {
                 <div className="container">
                     <div className="flex items-center justify-between h-20">
                         {/* Logo */}
-                        <Link to="/" className="flex items-center">
-                            <img
-                                src={location.pathname === '/' ? "/assets/logo.png" : "/assets/logo-teal.png"}
-                                alt="Scoutripper"
-                                className="object-contain"
-                                style={{ width: '140px', height: '40px' }}
-                            />
-                        </Link>
+                        <div className="flex items-center gap-10">
+                            <Link to="/" className="flex items-center">
+                                <img
+                                    src={location.pathname === '/' ? "/assets/logo.png" : "/assets/logo-teal.png"}
+                                    alt="Scoutripper"
+                                    className="object-contain"
+                                    style={{ width: '140px', height: '40px' }}
+                                />
+                            </Link>
 
-                        {/* Desktop Navigation */}
-                        <div className="hidden md:flex items-center gap-8">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className="font-medium text-white hover:text-teal-300 transition-colors"
-                                >
-                                    {link.name}
-                                </Link>
-                            ))}
+                            {/* Desktop Navigation - Left Side */}
+                            <div className="hidden md:flex items-center gap-8">
+                                {navLinks.map((link) => (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        className={`font-medium hover:text-teal-400 transition-colors font-['Jost'] ${isHomePage ? 'text-white' : 'text-black'
+                                            }`}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Right Side Icons */}
@@ -76,7 +83,8 @@ const Navbar = () => {
                             {/* Favorites Icon */}
                             <Link
                                 to="/favorites"
-                                className="p-2 rounded-full relative text-white hover:bg-white/20 transition-colors"
+                                className={`p-2 rounded-full relative transition-colors ${isHomePage ? 'text-white hover:bg-white/20' : 'text-black hover:bg-gray-100'
+                                    }`}
                             >
                                 <Heart className="w-5 h-5" />
                                 {favoritesCount > 0 && (
@@ -88,13 +96,15 @@ const Navbar = () => {
 
                             <Link
                                 to="/profile"
-                                className="p-2 rounded-full text-white hover:bg-white/20 transition-colors"
+                                className={`p-2 rounded-full transition-colors ${isHomePage ? 'text-white hover:bg-white/20' : 'text-black hover:bg-gray-100'
+                                    }`}
                             >
                                 <User className="w-5 h-5" />
                             </Link>
                             <button
                                 onClick={() => setIsCartOpen(true)}
-                                className="p-2 rounded-full relative text-white hover:bg-white/20 transition-colors"
+                                className={`p-2 rounded-full relative transition-colors ${isHomePage ? 'text-white hover:bg-white/20' : 'text-black hover:bg-gray-100'
+                                    }`}
                             >
                                 <ShoppingCart className="w-5 h-5" />
                                 {cartCount > 0 && (
@@ -104,9 +114,9 @@ const Navbar = () => {
                                 )}
                             </button>
 
-                            {/* Mobile Menu Button */}
                             <button
-                                className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition-colors"
+                                className={`md:hidden p-2 rounded-lg transition-colors ${isHomePage ? 'text-white hover:bg-white/20' : 'text-black hover:bg-gray-100'
+                                    }`}
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             >
                                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

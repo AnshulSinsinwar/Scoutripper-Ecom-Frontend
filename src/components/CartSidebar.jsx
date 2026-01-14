@@ -8,7 +8,7 @@ import Button from './Button';
 const CartSidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
-    const [activeTab, setActiveTab] = useState('all'); // 'all', 'rent', 'buy'
+    const [activeTab, setActiveTab] = useState('rent'); // 'rent', 'buy' (all is hidden)
 
     // Filter items based on active tab
     const filteredItems = cartItems.filter((item) => {
@@ -44,7 +44,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
     };
 
     const tabs = [
-        { id: 'all', label: 'All', count: cartItems.length },
+        // { id: 'all', label: 'All', count: cartItems.length }, // Hidden - not using All tab for now
         { id: 'rent', label: 'Rent', count: rentCount },
         { id: 'buy', label: 'Buy', count: buyCount },
     ];
@@ -92,7 +92,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${activeTab === tab.id
-                                            ? 'bg-teal-600 text-white shadow-sm'
+                                            ? 'bg-[#4EC5C1] text-white shadow-sm'
                                             : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
                                             }`}
                                     >
@@ -235,7 +235,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
                                 <Button
                                     onClick={handleProceedToCheckout}
-                                    className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl"
+                                    className="w-full bg-[#4EC5C1] hover:bg-[#3db5b1] text-white py-3 rounded-xl"
                                 >
                                     Proceed to Checkout →
                                 </Button>

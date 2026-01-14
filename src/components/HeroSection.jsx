@@ -28,7 +28,7 @@ const HeroSection = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8 }}
-                        className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+                        className="text-5xl md:text-6xl lg:text-7xl font-bold drop-shadow-2xl text-white mb-6 leading-tight"
                     >
                         Gear Up for Your Next{' '}
                         <span className="text-primary-300">Adventure</span>
@@ -38,7 +38,7 @@ const HeroSection = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.8 }}
-                        className="text-xl md:text-2xl text-slate-200 mb-8 max-w-2xl"
+                        className="text-xl md:text-2xl text-white drop-shadow-2xl mb-8 max-w-2xl text-b"
                     >
                         Rent or buy premium trekking gear tested on real trails. Quality equipment for every mountain adventure.
                     </motion.p>

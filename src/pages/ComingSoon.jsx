@@ -18,7 +18,7 @@ const ComingSoon = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                    className="inline-flex items-center justify-center w-24 h-24 mb-8 bg-gradient-to-br from-teal-500 to-blue-500 rounded-full"
+                    className="inline-flex items-center justify-center w-24 h-24 mb-8 bg-[#4EC5C1] rounded-full"
                 >
                     <Construction className="w-12 h-12 text-white" />
                 </motion.div>
@@ -29,11 +29,11 @@ const ComingSoon = () => {
                     transition={{ delay: 0.4 }}
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <Sparkles className="w-6 h-6 text-teal-600" />
-                        <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+                        <Sparkles className="w-6 h-6 text-[#4EC5C1]" />
+                        <h1 className="text-5xl md:text-6xl font-bold text-[#4EC5C1]">
                             Coming Soon
                         </h1>
-                        <Sparkles className="w-6 h-6 text-blue-600" />
+                        <Sparkles className="w-6 h-6 text-[#4EC5C1]" />
                     </div>
 
                     <p className="text-xl md:text-2xl text-slate-700 mb-4">
@@ -70,7 +70,7 @@ const ComingSoon = () => {
                         <Button
                             onClick={() => navigate('/')}
                             icon={ArrowLeft}
-                            className="bg-gradient-to-r from-teal-600 to-blue-600 text-white hover:from-teal-700 hover:to-blue-700 px-8 py-3"
+                            className="bg-[#4EC5C1] hover:bg-[#3db5b1] text-white px-8 py-3"
                         >
                             Back to Home
                         </Button>

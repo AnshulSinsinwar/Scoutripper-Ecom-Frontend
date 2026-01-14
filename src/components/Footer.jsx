@@ -31,9 +31,9 @@ const Footer = () => {
     return (
         <footer className="bg-[#4ec5c1] text-white">
             <div className="max-w-[1522px] mx-auto px-6 py-10 min-h-[603px] flex flex-col    justify-between"> {/* Main Footer Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    {/* Left Column - Logo & Contact */}
-                    <div className="lg:col-span-4">
+                <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+                    {/* Left Column - Logo & Contact (starts from column 2) */}
+                    <div className="lg:col-start-2 lg:col-span-3">
                         {/* Logo */}
                         <Link to="/" className="inline-block mb-8">
                             <img
@@ -46,7 +46,7 @@ const Footer = () => {
 
                         {/* Contact Info - Side by Side */}
                         <div className="flex gap-12 mb-8">
-                            <div>
+                            <div className="whitespace-nowrap">
                                 <div className="text-sm text-white/80 mb-1">Toll Free Customer Care</div>
                                 <a
                                     href="tel:+919888454430"
@@ -98,18 +98,18 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Right Side - Newsletter + Links */}
-                    <div className="lg:col-span-8">
+                    {/* Right Side - Newsletter + Links (columns 6-10) */}
+                    <div className="lg:col-start-6 lg:col-span-5">
                         {/* Newsletter Row */}
                         <div className="mb-10">
                             <h3 className="text-white font-semibold mb-3">
                                 Get Updates & More
                             </h3>
-                            <div className="flex max-w-lg">
+                            <div className="flex max-w-xl">
                                 <input
                                     type="email"
                                     placeholder="Your Email"
-                                    className="flex-1 px-5 py-3.5 text-sm rounded-l bg-white text-gray-700 placeholder-gray-400 focus:outline-none"
+                                    className="flex-1 px-6 py-5 text-sm rounded-l bg-white text-gray-700 placeholder-gray-400 focus:outline-none"
                                 />
                                 <button className="px-8 py-3.5 bg-white text-[#324B4C] text-sm font-semibold rounded-r border-l border-gray-200 hover:bg-gray-50 transition-colors">
                                     Subscribe
@@ -124,7 +124,7 @@ const Footer = () => {
                                 <h3 className="text-white font-semibold mb-4">
                                     Shop
                                 </h3>
-                                <ul className="space-y-4">
+                                <ul className="space-y-6">
                                     {shopLinks.map((link) => (
                                         <li key={link.path + link.name}>
                                             <Link
@@ -143,7 +143,7 @@ const Footer = () => {
                                 <h3 className="text-white font-semibold mb-4">
                                     Customer Service
                                 </h3>
-                                <ul className="space-y-4">
+                                <ul className="space-y-6">
                                     {customerServiceLinks.map((link) => (
                                         <li key={link.path + link.name}>
                                             <Link
@@ -162,7 +162,7 @@ const Footer = () => {
                                 <h3 className="text-white font-semibold mb-4">
                                     Company
                                 </h3>
-                                <ul className="space-y-4">
+                                <ul className="space-y-6">
                                     {companyLinks.map((link) => (
                                         <li key={link.path}>
                                             <Link
@@ -180,11 +180,11 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="pt-6 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-2 mt-auto">
+                <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-2 ml-20 mt-auto">
                     <p className="text-white/90 text-sm">
                         Copyright © {currentYear} by Scoutripper
                     </p>
-                    <p className="text-white/90 text-sm">
+                    <p className="text-white/90 text-sm mr-20">
                         Made with <span className="text-red-400">❤️</span>
                     </p>
                 </div>

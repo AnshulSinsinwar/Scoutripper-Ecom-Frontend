@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Check, Calendar, MapPin, CreditCard, CheckCircle, ShieldCheck, Phone } from 'lucide-react';
+import { Check, Calendar, MapPin, CreditCard, CheckCircle, ShieldCheck, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import Button from '../components/Button';
 
@@ -84,14 +84,39 @@ const CheckoutFlow = () => {
             {/* Header with Progress Stepper */}
             <div className="bg-white border-b sticky top-20 z-30">
                 <div className="max-w-4xl mx-auto px-4 py-2">
-                    {/* Back Button */}
-                    <button
-                        onClick={() => currentStep > 1 ? setCurrentStep(currentStep - 1) : navigate(-1)}
-                        className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6"
-                    >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back
-                    </button>
+                    {/* Breadcrumb Navigation */}
+                    <div className="flex items-center gap-2 text-sm mb-6 flex-wrap">
+                        <button
+                            onClick={() => navigate('/')}
+                            className="text-slate-500 hover:text-teal-600 transition-colors"
+                        >
+                            Home
+                        </button>
+                        <span className="text-slate-400">&gt;</span>
+                        <button
+                            onClick={() => navigate(checkoutFilter === 'buy' ? '/buy' : '/rent')}
+                            className="text-slate-500 hover:text-teal-600 transition-colors"
+                        >
+                            {checkoutFilter === 'buy' ? 'Buy Gear' : 'Rent Gear'}
+                        </button>
+                        {steps.slice(0, currentStep).map((step, index) => (
+                            <span key={step.number} className="flex items-center gap-2">
+                                <span className="text-slate-400">&gt;</span>
+                                {index < currentStep - 1 ? (
+                                    <button
+                                        onClick={() => setCurrentStep(step.number)}
+                                        className="text-slate-500 hover:text-teal-600 transition-colors"
+                                    >
+                                        {step.title}
+                                    </button>
+                                ) : (
+                                    <span className="text-slate-800 font-medium">
+                                        {step.title}
+                                    </span>
+                                )}
+                            </span>
+                        ))}
+                    </div>
 
                     {/* Progress Stepper */}
                     <div className="flex items-start justify-between max-w-2xl mx-auto px-8 overflow-visible">

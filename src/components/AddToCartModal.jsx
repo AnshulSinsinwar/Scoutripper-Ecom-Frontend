@@ -195,7 +195,7 @@ const AddToCartModal = ({ isOpen, onClose, product, onAddToCart }) => {
                                                 </div>
                                                 <Button
                                                     onClick={handleRent}
-                                                    className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2.5 text-sm rounded-lg font-semibold"
+                                                    className="w-full bg-#4EC5C1 hover:bg-teal-700 text-white py-2.5 text-sm rounded-lg font-semibold"
                                                 >
                                                     Rent Now
                                                 </Button>

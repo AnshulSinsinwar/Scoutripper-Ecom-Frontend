@@ -1,15 +1,21 @@
 import { useState } from 'react';
-import { X, GitCompare, Trash2 } from 'lucide-react';
+import { X, GitCompare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { useCompare } from '../context/CompareContext';
 import CompareModal from './CompareModal';
 
 const CompareBar = () => {
     const { compareItems, removeFromCompare, clearCompare, getCompareCount } = useCompare();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const location = useLocation();
     const count = getCompareCount();
 
-    if (count === 0) return null;
+    // Only show on product listing pages
+    const allowedPaths = ['/rent', '/buy', '/products'];
+    const shouldShow = allowedPaths.some(path => location.pathname.startsWith(path));
+
+    if (count === 0 || !shouldShow) return null;
 
     return (
         <>
@@ -68,8 +74,8 @@ const CompareBar = () => {
                                 onClick={() => setIsModalOpen(true)}
                                 disabled={count < 2}
                                 className={`px-6 py-2.5 rounded-lg font-semibold transition-colors ${count >= 2
-                                        ? 'bg-teal-500 text-white hover:bg-teal-600'
-                                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                    ? 'bg-teal-500 text-white hover:bg-teal-600'
+                                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                     }`}
                             >
                                 Compare Now

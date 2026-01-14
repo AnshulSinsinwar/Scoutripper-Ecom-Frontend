@@ -56,7 +56,7 @@ const HowItWorks = () => {
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.2, duration: 0.6 }}
                             >
-                                <Card className="relative h-full">
+                                <Card className="relative h-full bg-white rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300">
                                     {/* Number Badge */}
                                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-12 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
                                         {step.number}
