@@ -78,9 +78,14 @@ const ProductListing = () => {
     ];
 
     return (
-        <div className="pt-24 pb-8 bg-slate-50">
+        <div className="pt-20 pb-8 bg-slate-50">
+            <div className="w-full bg-[#F5F5F5]">
+                <div className="container px-4 sm:px-6 lg:px-8 py-3">
+                    <Breadcrumb items={breadcrumbItems} />
+                </div>
+            </div>
+
             <div className="container px-4 sm:px-6 lg:px-8">
-                <Breadcrumb items={breadcrumbItems} />
 
                 <div className="mt-4 sm:mt-6 mb-6 sm:mb-8">
                     <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Trekking Gear</h1>

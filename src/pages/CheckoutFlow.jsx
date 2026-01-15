@@ -82,82 +82,92 @@ const CheckoutFlow = () => {
     return (
         <div className="min-h-screen bg-slate-50 pt-20">
             {/* Header with Progress Stepper */}
-            <div className="bg-white border-b sticky top-20 z-30">
-                <div className="max-w-4xl mx-auto px-4 py-2">
-                    {/* Breadcrumb Navigation */}
-                    <div className="flex items-center gap-2 text-sm mb-6 flex-wrap">
-                        <button
-                            onClick={() => navigate('/')}
-                            className="text-slate-500 hover:text-teal-600 transition-colors"
-                        >
-                            Home
-                        </button>
-                        <span className="text-slate-400">&gt;</span>
-                        <button
-                            onClick={() => navigate(checkoutFilter === 'buy' ? '/buy' : '/rent')}
-                            className="text-slate-500 hover:text-teal-600 transition-colors"
-                        >
-                            {checkoutFilter === 'buy' ? 'Buy Gear' : 'Rent Gear'}
-                        </button>
-                        {steps.slice(0, currentStep).map((step, index) => (
-                            <span key={step.number} className="flex items-center gap-2">
-                                <span className="text-slate-400">&gt;</span>
-                                {index < currentStep - 1 ? (
-                                    <button
-                                        onClick={() => setCurrentStep(step.number)}
-                                        className="text-slate-500 hover:text-teal-600 transition-colors"
-                                    >
-                                        {step.title}
-                                    </button>
-                                ) : (
-                                    <span className="text-slate-800 font-medium">
-                                        {step.title}
-                                    </span>
-                                )}
-                            </span>
-                        ))}
-                    </div>
-
-                    {/* Progress Stepper */}
-                    <div className="flex items-start justify-between max-w-2xl mx-auto px-8 overflow-visible">
-                        {steps.map((step, index) => {
-                            const Icon = step.icon;
-                            const isCompleted = currentStep > step.number;
-                            const isActive = currentStep === step.number;
-
-                            return (
-                                <div key={step.number} className="flex items-start flex-1 min-w-0">
-                                    {/* Step Circle and Label */}
-                                    <div className="flex flex-col items-center flex-shrink-0">
-                                        <div
-                                            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isActive
-                                                ? 'bg-teal-600 text-white'
-                                                : isCompleted
-                                                    ? 'bg-teal-600 text-white'
-                                                    : 'bg-slate-100 text-slate-400'
-                                                }`}
-                                        >
-                                            <Icon className="w-5 h-5" />
-                                        </div>
-                                        <span
-                                            className={`text-xs mt-2 font-medium text-center whitespace-nowrap ${isActive || isCompleted ? 'text-slate-800' : 'text-slate-400'
-                                                }`}
+            <div className="sticky top-20 z-30">
+                <div className="bg-[#F5F5F5] border-b">
+                    <div className="max-w-4xl mx-auto px-4 py-2">
+                        {/* Breadcrumb Navigation */}
+                        <div className="flex items-center gap-2 text-sm flex-wrap">
+                            <button
+                                onClick={() => navigate('/')}
+                                className="text-slate-500 hover:text-teal-600 transition-colors"
+                            >
+                                Home
+                            </button>
+                            <span className="text-slate-400">&gt;</span>
+                            <button
+                                onClick={() => navigate(checkoutFilter === 'buy' ? '/buy' : '/rent')}
+                                className="text-slate-500 hover:text-teal-600 transition-colors"
+                            >
+                                {checkoutFilter === 'buy' ? 'Buy Gear' : 'Rent Gear'}
+                            </button>
+                            {steps.map((step) => (
+                                <span key={step.number} className="flex items-center gap-2">
+                                    <span className="text-slate-400">&gt;</span>
+                                    {step.number < currentStep ? (
+                                        <button
+                                            onClick={() => setCurrentStep(step.number)}
+                                            className="text-slate-500 hover:text-teal-600 transition-colors"
                                         >
                                             {step.title}
+                                        </button>
+                                    ) : step.number === currentStep ? (
+                                        <span className="text-slate-800 font-medium">
+                                            {step.title}
                                         </span>
-                                    </div>
-                                    {/* Connector Line */}
-                                    {index < steps.length - 1 && (
-                                        <div className="flex-1 flex items-center pt-6 px-3">
-                                            <div
-                                                className={`h-[2px] w-full ${isCompleted ? 'bg-teal-600' : 'bg-slate-200'
-                                                    }`}
-                                            />
-                                        </div>
+                                    ) : (
+                                        <span className="text-slate-400">
+                                            {step.title}
+                                        </span>
                                     )}
-                                </div>
-                            );
-                        })}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white border-b">
+                    <div className="max-w-4xl mx-auto px-4 py-3">
+                        {/* Progress Stepper */}
+                        <div className="flex items-start justify-between max-w-2xl mx-auto px-8 overflow-visible">
+                            {steps.map((step, index) => {
+                                const Icon = step.icon;
+                                const isCompleted = currentStep > step.number;
+                                const isActive = currentStep === step.number;
+
+                                return (
+                                    <div key={step.number} className="flex items-start flex-1 min-w-0">
+                                        {/* Step Circle and Label */}
+                                        <div className="flex flex-col items-center flex-shrink-0">
+                                            <div
+                                                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isActive
+                                                    ? 'bg-teal-600 text-white'
+                                                    : isCompleted
+                                                        ? 'bg-teal-600 text-white'
+                                                        : 'bg-slate-100 text-slate-400'
+                                                    }`}
+                                            >
+                                                <Icon className="w-5 h-5" />
+                                            </div>
+                                            <span
+                                                className={`text-xs mt-2 font-medium text-center whitespace-nowrap ${isActive || isCompleted ? 'text-slate-800' : 'text-slate-400'
+                                                    }`}
+                                            >
+                                                {step.title}
+                                            </span>
+                                        </div>
+                                        {/* Connector Line */}
+                                        {index < steps.length - 1 && (
+                                            <div className="flex-1 flex items-center pt-6 px-3">
+                                                <div
+                                                    className={`h-[2px] w-full ${isCompleted ? 'bg-teal-600' : 'bg-slate-200'
+                                                        }`}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -349,7 +359,7 @@ const CheckoutFlow = () => {
                                     />
                                     <div className="flex-1">
                                         <div className="font-semibold">Store Pickup</div>
-                                        <div className="text-sm text-slate-600">Pick up from our Dehradun store</div>
+                                        <div className="text-sm text-slate-600">Pick up from our store</div>
                                     </div>
                                     <div className="font-semibold text-teal-600">Free</div>
                                 </label>
@@ -357,7 +367,7 @@ const CheckoutFlow = () => {
                                 {/* Note for rental items */}
                                 {checkoutFilter === 'rent' && (
                                     <div className="bg-teal-50 border border-teal-200 rounded-lg p-3 text-sm text-teal-700">
-                                        <strong>Note:</strong> Rental items are only available for store pickup. Please collect your gear from our Dehradun store.
+                                        <strong>Note:</strong> Rental items are only available for store pickup.
                                     </div>
                                 )}
                             </div>
@@ -486,10 +496,10 @@ const CheckoutFlow = () => {
                             </div>
                         </div>
 
-                        {/* Guest Checkout Notice */}
+                        {/* Guest Checkout Notice
                         <div className="bg-blue-50 rounded-xl p-4 text-sm text-blue-900">
                             ✓ You can checkout as a guest — no account required
-                        </div>
+                        </div> */}
 
                         {/* Payment Method */}
                         <div className="bg-white rounded-2xl p-6 border">
