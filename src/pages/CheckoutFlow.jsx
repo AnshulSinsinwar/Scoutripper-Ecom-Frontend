@@ -83,8 +83,8 @@ const CheckoutFlow = () => {
         <div className="min-h-screen bg-slate-50 pt-20">
             {/* Header with Progress Stepper */}
             <div className="sticky top-20 z-30">
-                <div className="bg-[#F5F5F5] border-b">
-                    <div className="max-w-4xl mx-auto px-4 py-2">
+                <div className="w-full bg-[#F5F5F5] border-b">
+                    <div className="container px-4 sm:px-6 lg:px-8 py-3">
                         {/* Breadcrumb Navigation */}
                         <div className="flex items-center gap-2 text-sm flex-wrap">
                             <button
