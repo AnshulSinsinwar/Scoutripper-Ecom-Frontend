@@ -95,7 +95,7 @@ const Navbar = () => {
                             </Link>
 
                             <Link
-                                to="/profile"
+                                to="/login"
                                 className={`p-2 rounded-full transition-colors ${isHomePage ? 'text-white hover:bg-white/20' : 'text-black hover:bg-gray-100'
                                     }`}
                             >
