@@ -11,6 +11,13 @@
     --color-slate-light: #6c757d;
   }
 
+  /* Force override for these specific classes to ensure immediate update */
+  .text-slate-900,
+  .text-slate-800,
+  .text-slate-700 {
+    color: #0f3d3a !important;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -24,7 +31,7 @@
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
-    color: #343a40;
+    color: #0f3d3a;
     background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -39,7 +46,7 @@
     font-family: 'Jost', 'Inter', sans-serif;
     font-weight: 600;
     line-height: 1.2;
-    color: #1a1d20;
+    color: #0f3d3a;
   }
 
   img {

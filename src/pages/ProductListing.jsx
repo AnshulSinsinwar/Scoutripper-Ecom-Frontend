@@ -78,7 +78,7 @@ const ProductListing = () => {
     ];
 
     return (
-        <div className="pt-20 pb-8 bg-slate-50">
+        <div className="pt-20 pb-8 bg-white">
             <div className="w-full bg-[#F5F5F5]">
                 <div className="container px-4 sm:px-6 lg:px-8 py-3">
                     <Breadcrumb items={breadcrumbItems} />

@@ -88,7 +88,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
             difficulty: [],
             weather: [],
             inStock: null,
-            priceRange: { min: 0, max: 5000 },
+            priceRange: { min: 0, max: 10000 },
             days: { from: 0, to: 30 },
         });
         setCategorySearch('');
@@ -100,7 +100,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
         filters.weather.length > 0 ||
         filters.inStock !== null ||
         filters.priceRange.min > 0 ||
-        filters.priceRange.max < 5000;
+        filters.priceRange.max < 10000;
 
     const filteredCategories = categories.filter((cat) =>
         cat.name.toLowerCase().includes(categorySearch.toLowerCase())
@@ -115,7 +115,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
             <span className="font-semibold text-sm text-slate-800 uppercase tracking-wide">
                 {title}
                 {count > 0 && (
-                    <span className="ml-2 text-xs font-normal text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                    <span className="ml-2 text-xs font-normal text-slate-600 bg-slate-50 px-2 py-0.5 rounded-full">
                         {count}
                     </span>
                 )}
@@ -216,7 +216,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
                                             placeholder="Search category..."
                                             value={categorySearch}
                                             onChange={(e) => setCategorySearch(e.target.value)}
-                                            className="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-inset focus:ring-[#4ec5c1] focus:border-transparent"
                                         />
                                     </div>
                                     <div className="space-y-0.5 pb-4 max-h-48 overflow-y-auto scrollbar-hide">
@@ -341,7 +341,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
                         <SectionHeader
                             title="Price Range"
                             section="price"
-                            count={filters.priceRange.min > 0 || filters.priceRange.max < 5000 ? 1 : 0}
+                            count={filters.priceRange.min > 0 || filters.priceRange.max < 10000 ? 1 : 0}
                         />
                         <AnimatePresence>
                             {expandedSections.price && (
@@ -359,15 +359,15 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
                                                 <div
                                                     className="absolute h-full bg-blue-600 rounded-full"
                                                     style={{
-                                                        left: `${(filters.priceRange.min / 5000) * 100}%`,
-                                                        right: `${100 - (filters.priceRange.max / 5000) * 100}%`
+                                                        left: `${(filters.priceRange.min / 10000) * 100}%`,
+                                                        right: `${100 - (filters.priceRange.max / 10000) * 100}%`
                                                     }}
                                                 />
                                             </div>
                                             <input
                                                 type="range"
                                                 min="0"
-                                                max="5000"
+                                                max="10000"
                                                 step="100"
                                                 value={filters.priceRange.min}
                                                 onChange={(e) => handlePriceChange('min', Math.min(e.target.value, filters.priceRange.max - 100))}
@@ -376,7 +376,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
                                             <input
                                                 type="range"
                                                 min="0"
-                                                max="5000"
+                                                max="10000"
                                                 step="100"
                                                 value={filters.priceRange.max}
                                                 onChange={(e) => handlePriceChange('max', Math.max(e.target.value, filters.priceRange.min + 100))}
@@ -408,7 +408,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, setFilters }) => {
                                                     <input
                                                         type="number"
                                                         min={filters.priceRange.min}
-                                                        max="5000"
+                                                        max="10000"
                                                         value={filters.priceRange.max}
                                                         onChange={(e) => handlePriceChange('max', e.target.value)}
                                                         className="w-full pl-7 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

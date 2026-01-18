@@ -68,10 +68,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'tween', duration: 0.3 }}
-                        className="fixed right-0 top-0 h-full w-full md:w-[480px] bg-white shadow-2xl z-50 flex flex-col"
+                        className="fixed right-0 top-0 h-full w-full md:w-[480px] bg-white z-50 flex flex-col"
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between p-6 border-b">
+                        <div className="flex items-center justify-between p-5 border-b">
                             <h2 className="text-2xl font-bold flex items-center gap-2">
                                 <ShoppingCart className="w-6 h-6" />
                                 Your Cart
